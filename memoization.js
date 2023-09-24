@@ -1,0 +1,1 @@
+//memoization is the concept of storing cache data if the function execution again then it retrive from cache
