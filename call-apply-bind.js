@@ -12,7 +12,7 @@ printFullName.call(name,"ibrahimpatnam","telangana")
 
 let name2={
     firstname:"Margam",
-    lastname:"lavisha"
+    lastname:"vinay"
 }
 
 printFullName.call(name2,"mumbai","maharastra");

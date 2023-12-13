@@ -11,7 +11,7 @@
 const privateCounter1=()=>{
     let value=0;
     const child=()=>{
-       value=value+1
+      return value=value+1
        
     }
     return child;
