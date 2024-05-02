@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get GPS Location</title>
+  </head>
+  <body>
+    <h1>Get GPS Location</h1>
+    <p>Click the button to get your GPS location:</p>
+    <button onclick="getLocation()">Get Location</button>
+    <p id="demo"></p>
+
+    <script>
+      function getLocation() {
+        // Check if geolocation is supported
+        if ("geolocation" in navigator) {
+          // Request location
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              // Success callback
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+              document.getElementById("demo").innerHTML =
+                "Latitude: " + latitude + "<br>Longitude: " + longitude;
+            },
+            function (error) {
+              // Error callback
+              switch (error.code) {
+                case error.PERMISSION_DENIED:
+                  document.getElementById("demo").innerHTML =
+                    "User denied the request for Geolocation.";
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  document.getElementById("demo").innerHTML =
+                    "Location information is unavailable.";
+                  break;
+                case error.TIMEOUT:
+                  document.getElementById("demo").innerHTML =
+                    "The request to get user location timed out.";
+                  break;
+                case error.UNKNOWN_ERROR:
+                  document.getElementById("demo").innerHTML =
+                    "An unknown error occurred.";
+                  break;
+              }
+            }
+          );
+        } else {
+          document.getElementById("demo").innerHTML =
+            "Geolocation is not supported by this browser.";
+        }
+      }
+    </script>
+  </body>
+</html>

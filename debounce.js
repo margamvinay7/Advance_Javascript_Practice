@@ -8,16 +8,18 @@ const clicklog=()=>console.log('clicked')
 document.addEventListener('DOMContentLoaded',initApp)
 
 const debounce=(fn,delay)=>{
-    let id;
-    console.log(`id at immediate load:${id}`);
+    let vid;
+    console.log(`vid at immediate load:${vid}`);
     return (...args)=>{
         console.log(...args)
-        console.log(`previous id:${id}`);
-        if (id) clearTimeout(id);
-        id=setTimeout(()=>{
+        console.log(`previous vid:${vid}`);
+        if (vid) clearTimeout(vid);
+        vid=setTimeout(()=>{
            console.log(fn(...args));
             
 
         },delay)
+
+        console.log('after time out',vid)
     }
 }

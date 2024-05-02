@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <video id="video" autoplay></video>
+    <button id="startRecordingBtn">Start Recording</button>
+    <button id="stopRecordingBtn" disabled>Stop Recording</button>
+    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+    <script>
+      if (navigator.mediaDevices) {
+        let recorder;
+
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then((stream) => {
+            document.getElementById("video").srcObject = stream;
+            const startBtn = document.getElementById("startRecordingBtn");
+            const stopBtn = document.getElementById("stopRecordingBtn");
+
+            startBtn.addEventListener("click", () => {
+              recorder = RecordRTC(stream, { type: "video" }); // Configure recording type
+              recorder.startRecording();
+              startBtn.disabled = true;
+              stopBtn.disabled = false;
+            });
+
+            stopBtn.addEventListener("click", () => {
+              recorder.stopRecording(function (videoBlob) {
+                console.log("Recorded video Blob:", videoBlob);
+
+                // Check for browser saveAs support (might be restricted)
+                const saveAs = window.saveAs || window.webkitSaveAs;
+                if (saveAs) {
+                  saveAs(videoBlob, "recorded_video.webm"); // Change format as needed
+                } else {
+                  console.error(
+                    "Your browser doesn't support saving files locally"
+                  );
+                }
+              });
+              startBtn.disabled = false;
+              stopBtn.disabled = true;
+            });
+          })
+          .catch((error) => {
+            console.error("Error accessing camera:", error);
+          });
+      } else {
+        console.error("Your browser doesn't support accessing camera");
+      }
+    </script>
+  </body>
+</html>

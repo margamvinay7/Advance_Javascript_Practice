@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <video id="video" autoplay></video>
+    <button id="captureBtn">Capture Image</button>
+    <canvas id="canvas" style="display: none"></canvas>
+    <div id="capturedImage"></div>
+    <script>
+      if (navigator.mediaDevices) {
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then((stream) => {
+            document.getElementById("video").srcObject = stream;
+            const btn = document.getElementById("captureBtn");
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            const capturedImageContainer =
+              document.getElementById("capturedImage");
+
+            btn.addEventListener("click", () => {
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+              ctx.drawImage(video, 0, 0);
+              const imageData = canvas.toDataURL("image/png"); // Change format as needed
+
+              // Display captured image
+              const newImage = document.createElement("img");
+              newImage.src = imageData;
+              capturedImageContainer.innerHTML = ""; // Clear previous image (if any)
+              capturedImageContainer.appendChild(newImage);
+
+              // Optional: Create download link for captured image
+              const downloadLink = document.createElement("a");
+              downloadLink.href = imageData;
+              downloadLink.download = "captured_image.png"; // Set download filename
+              downloadLink.textContent = "Download Image";
+              capturedImageContainer.appendChild(downloadLink);
+            });
+          })
+          .catch((error) => {
+            console.error("Error accessing camera:", error);
+            // Display an error message to the user
+            capturedImageContainer.textContent = "Error capturing image";
+          });
+      } else {
+        console.error("Your browser doesn't support accessing camera");
+      }
+    </script>
+  </body>
+</html>
